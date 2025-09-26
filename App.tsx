@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { CalculatorMode } from './types';
 import DiceCalculator from './components/DiceCalculator';
 import SkillCalculator from './components/SkillCalculator';
+import SpecialCalculator from './components/SpecialCalculator';
 import TabButton from './components/TabButton';
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
       case 'skill':
         return <SkillCalculator />;
       case 'special':
+        return <SpecialCalculator />;
       case 'parameter':
         return (
           <div className="flex items-center justify-center h-64 bg-slate-800/50 rounded-lg border border-slate-700">
