@@ -1,0 +1,5 @@
+{
+  "name": "RPG XP Calculator",
+  "description": "An experience point spending calculator for your role-playing game. It allows users to calculate the cost of increasing dice, skills, specials, or parameters based on specific game rules.",
+  "requestFramePermissions": []
+}
