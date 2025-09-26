@@ -64,7 +64,7 @@ const SkillCalculator: React.FC = () => {
           stepCost = NATURAL_UNTRAINED_COST;
           formula = `Costo base naturale`;
         }
-        newSteps.push({ description: `Da Non Addestrata a 0`, cost: stepCost, formula });
+        newSteps.push({ description: `Da Non Ancora Appresa a 0`, cost: stepCost, formula });
       } else { // From 0 upwards
         let multiplier = 0;
         let maestroText = '';
@@ -96,7 +96,7 @@ const SkillCalculator: React.FC = () => {
   }, [skill, isUntrained, currentLevel, targetLevel, withMaster]);
 
   const selectClasses = "w-full p-3 bg-slate-900 border border-slate-600 rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-400 text-lg transition duration-150 ease-in-out";
-  const inputClasses = "w-full p-3 bg-slate-900 border border-slate-600 rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-400 text-lg transition duration-150 ease-in-out disabled:bg-slate-800 disabled:cursor-not-allowed";
+  const inputClasses = "w-full p-3 bg-slate-900 border border-slate-600 rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-400 text-lg transition duration-150 ease-in-out";
   const checkboxLabelClasses = "flex items-center space-x-3 cursor-pointer text-slate-300";
   const checkboxClasses = "h-5 w-5 rounded bg-slate-700 border-slate-500 text-amber-500 focus:ring-amber-400 focus:ring-offset-slate-800";
 
@@ -116,30 +116,31 @@ const SkillCalculator: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
         {/* Current Level */}
         <div>
-          <label className="block text-sm font-bold text-slate-400 mb-2">Punto di Partenza</label>
+          <label className="block text-sm font-bold text-slate-400 mb-2">Valore attuale</label>
           <div className='flex items-center space-x-4'>
             <div className='bg-slate-900 border border-slate-600 rounded-md p-3 flex-grow'>
               <label className={checkboxLabelClasses}>
                 <input type="checkbox" checked={isUntrained} onChange={(e) => setIsUntrained(e.target.checked)} className={checkboxClasses} />
-                <span>Non Addestrata</span>
+                <span>Non Ancora Appresa</span>
               </label>
             </div>
-            <input
-              id="current-level"
-              type="number"
-              min="0"
-              value={currentLevel}
-              onChange={(e) => setCurrentLevel(parseInt(e.target.value, 10) || 0)}
-              disabled={isUntrained}
-              className={`${inputClasses} w-28`}
-              aria-label="Livello Attuale"
-            />
+            {!isUntrained && (
+              <input
+                id="current-level"
+                type="number"
+                min="0"
+                value={currentLevel}
+                onChange={(e) => setCurrentLevel(parseInt(e.target.value, 10) || 0)}
+                className={`${inputClasses} w-28`}
+                aria-label="Valore attuale"
+              />
+            )}
           </div>
         </div>
 
         {/* Target Level */}
         <div>
-          <label htmlFor="target-level" className="block text-sm font-bold text-slate-400 mb-2">Livello Desiderato</label>
+          <label htmlFor="target-level" className="block text-sm font-bold text-slate-400 mb-2">Valore da raggiungere</label>
           <input
             id="target-level"
             type="number"
@@ -188,7 +189,7 @@ const SkillCalculator: React.FC = () => {
             </div>
           </>
         ) : (
-          <p className="text-slate-400">Seleziona un livello desiderato più alto per calcolare il costo.</p>
+          <p className="text-slate-400">Seleziona un valore da raggiungere più alto per calcolare il costo.</p>
         )}
       </div>
     </div>
