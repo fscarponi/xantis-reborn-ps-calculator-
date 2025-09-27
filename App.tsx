@@ -4,6 +4,7 @@ import { CalculatorMode } from './types';
 import DiceCalculator from './components/DiceCalculator';
 import SkillCalculator from './components/SkillCalculator';
 import SpecialCalculator from './components/SpecialCalculator';
+import ParameterCalculator from './components/ParameterCalculator';
 import TabButton from './components/TabButton';
 
 const App: React.FC = () => {
@@ -18,11 +19,7 @@ const App: React.FC = () => {
       case 'special':
         return <SpecialCalculator />;
       case 'parameter':
-        return (
-          <div className="flex items-center justify-center h-64 bg-slate-800/50 rounded-lg border border-slate-700">
-            <p className="text-2xl text-slate-400 font-serif">Sezione in costruzione...</p>
-          </div>
-        );
+        return <ParameterCalculator />;
       default:
         return null;
     }

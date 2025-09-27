@@ -19,4 +19,15 @@ export type Skill =
   | 'Costruire edifici'
   | 'Forgiare';
 
+export type Parameter = 
+  | 'Punti Ferita'
+  | 'Punti Mente'
+  | 'Punti Sociali'
+  | 'Punti Spirituali'
+  | 'Punti Percezione'
+  | 'Punti Mana'
+  | 'Peso Fisico'
+  | 'Peso Magico'
+  | 'Iniziativa';
+
 export type CalculatorMode = 'dice' | 'skill' | 'special' | 'parameter';

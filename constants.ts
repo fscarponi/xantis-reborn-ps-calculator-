@@ -1,4 +1,4 @@
-import { Die, Skill } from './types';
+import { Die, Parameter, Skill } from './types';
 
 export const DICE_OPTIONS: Die[] = ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20'];
 
@@ -47,3 +47,24 @@ export const NATURAL_UNTRAINED_COST = 50;
 export const NATURAL_WITH_MASTER_MULTIPLIER = 25;
 export const SPECIALIZED_WITH_MASTER_MULTIPLIER = 100;
 export const NATURAL_WITHOUT_MASTER_MULTIPLIER = 50;
+
+// Parameter Costs
+export interface ParameterInfo {
+  name: Parameter;
+  multiplier: number;
+}
+export const PARAMETERS_DATA: ParameterInfo[] = [
+  { name: 'Punti Ferita', multiplier: 1 },
+  { name: 'Punti Mente', multiplier: 1 },
+  { name: 'Punti Sociali', multiplier: 1 },
+  { name: 'Punti Spirituali', multiplier: 1 },
+  { name: 'Punti Percezione', multiplier: 1 },
+  { name: 'Punti Mana', multiplier: 5 },
+  { name: 'Peso Fisico', multiplier: 1 },
+  { name: 'Peso Magico', multiplier: 1 },
+  { name: 'Iniziativa', multiplier: 1 },
+];
+
+export const PARAMETERS: Parameter[] = PARAMETERS_DATA.map(p => p.name);
+
+export const PARAMETER_COST_MULTIPLIER = 10;
