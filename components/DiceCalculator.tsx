@@ -6,6 +6,7 @@ interface CalculationStep {
   from: Die;
   to: Die;
   cost: number;
+  trainingDays: number;
 }
 
 const DiceCalculator: React.FC = () => {
@@ -13,6 +14,7 @@ const DiceCalculator: React.FC = () => {
   const [endDie, setEndDie] = useState<Die>('d10');
   const [totalCost, setTotalCost] = useState<number>(0);
   const [steps, setSteps] = useState<CalculationStep[]>([]);
+  const [totalTrainingDays, setTotalTrainingDays] = useState<number>(0);
 
   useEffect(() => {
     const startIndex = DICE_OPTIONS.indexOf(startDie);
@@ -21,23 +23,28 @@ const DiceCalculator: React.FC = () => {
     if (endIndex <= startIndex) {
       setTotalCost(0);
       setSteps([]);
+      setTotalTrainingDays(0);
       return;
     }
 
     const newSteps: CalculationStep[] = [];
     let currentCost = 0;
+    let currentTrainingDays = 0;
 
     for (let i = startIndex; i < endIndex; i++) {
       const from: Die = DICE_OPTIONS[i];
       const to: Die = DICE_OPTIONS[i + 1];
       const stepCost = DICE_VALUES[to] * DICE_COST_MULTIPLIER;
+      const stepTrainingDays = stepCost / DICE_VALUES[from];
       
-      newSteps.push({ from, to, cost: stepCost });
+      newSteps.push({ from, to, cost: stepCost, trainingDays: stepTrainingDays });
       currentCost += stepCost;
+      currentTrainingDays += stepTrainingDays;
     }
     
     setTotalCost(currentCost);
     setSteps(newSteps);
+    setTotalTrainingDays(Math.ceil(currentTrainingDays));
 
   }, [startDie, endDie]);
 
@@ -80,7 +87,7 @@ const DiceCalculator: React.FC = () => {
               <p className="text-4xl font-bold text-amber-400">{totalCost.toLocaleString('it-IT')} <span className="text-2xl text-amber-200">Punti Sviluppo</span></p>
             </div>
             <div>
-              <p className="text-slate-400 mb-2 font-semibold">Dettagli del Calcolo:</p>
+              <p className="text-slate-400 mb-2 font-semibold">Dettagli del Calcolo Costo:</p>
               <ul className="space-y-2 text-slate-300">
                 {steps.map((step, index) => (
                   <li key={index} className="flex justify-between items-center p-2 bg-slate-800 rounded-md">
@@ -91,23 +98,33 @@ const DiceCalculator: React.FC = () => {
               </ul>
             </div>
             <div className="mt-6 pt-6 border-t-2 border-slate-700/50">
-              <h4 className="text-lg font-bold text-slate-300 mb-4">Calcolo Tempo di Addestramento</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
-                <div>
-                  <label className="block text-sm font-bold text-slate-400 mb-2">Dado Sviluppo di Riferimento</label>
-                  <div className="w-full p-3 bg-slate-800 border border-slate-600 rounded-md text-lg font-bold text-center">
-                    {startDie.toUpperCase()}
-                  </div>
-                </div>
-                <div className="bg-slate-800 p-4 rounded-lg text-center">
-                    <p className="text-slate-400 text-sm">Tempo Richiesto:</p>
-                    <p className="text-2xl font-bold text-amber-400">
-                      {Math.ceil(totalCost / DICE_VALUES[startDie]).toLocaleString('it-IT')} 
-                      <span className="text-lg text-amber-200"> giorni</span>
-                    </p>
-                </div>
+              <h4 className="text-lg font-bold text-slate-300 mb-4">Tempo di Addestramento Richiesto</h4>
+              
+              <div className="mb-4">
+                  <p className="text-slate-400 mb-2 font-semibold">Dettagli del Calcolo Tempo:</p>
+                  <ul className="space-y-2 text-slate-300">
+                    {steps.map((step, index) => (
+                      <li key={index} className="flex justify-between items-center p-2 bg-slate-800 rounded-md">
+                        <span>Da {step.from.toUpperCase()} a {step.to.toUpperCase()}:</span>
+                        <span className="font-mono text-amber-300">
+                          {step.cost} PS / {DICE_VALUES[step.from]} = {step.trainingDays.toFixed(2)} giorni
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
               </div>
-              <p className="text-xs text-slate-500 mt-2">Per l'aumento di un dado, il tempo di addestramento si calcola usando il dado iniziale come riferimento.</p>
+
+              <div className="bg-slate-800 p-4 rounded-lg text-center">
+                  <p className="text-slate-400 text-sm">Totale Giorni (arrotondato per eccesso):</p>
+                  <p className="text-3xl font-bold text-amber-400">
+                    {totalTrainingDays.toLocaleString('it-IT')} 
+                    <span className="text-xl text-amber-200"> giorni</span>
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1 font-mono">
+                    Somma: {steps.map(s => s.trainingDays.toFixed(2)).join(' + ')} = {steps.reduce((acc, s) => acc + s.trainingDays, 0).toFixed(2)}
+                  </p>
+              </div>
+              <p className="text-xs text-slate-500 mt-2">Il tempo di addestramento viene calcolato per ogni singolo passaggio, usando il dado di partenza di quel passaggio come riferimento, e poi sommando i giorni.</p>
             </div>
           </>
         ) : (
