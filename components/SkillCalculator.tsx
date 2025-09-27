@@ -19,8 +19,8 @@ interface CalculationStep {
 const SkillCalculator: React.FC = () => {
   const [skill, setSkill] = useState<Skill>('Guerriero');
   const [isUntrained, setIsUntrained] = useState<boolean>(true);
-  const [currentLevel, setCurrentLevel] = useState<number>(0);
-  const [targetLevel, setTargetLevel] = useState<number>(1);
+  const [currentLevel, setCurrentLevel] = useState<string>('0');
+  const [targetLevel, setTargetLevel] = useState<string>('1');
   const [withMaster, setWithMaster] = useState<boolean>(true);
   
   const [cost, setCost] = useState<number>(0);
@@ -28,8 +28,11 @@ const SkillCalculator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const startLevel = isUntrained ? -1 : Math.floor(Math.max(0, currentLevel));
-    const endLevel = Math.floor(Math.max(0, targetLevel));
+    const currentLevelNum = parseInt(currentLevel, 10) || 0;
+    const targetLevelNum = parseInt(targetLevel, 10) || 0;
+
+    const startLevel = isUntrained ? -1 : Math.floor(Math.max(0, currentLevelNum));
+    const endLevel = Math.floor(Math.max(0, targetLevelNum));
 
     const selectedSkillInfo = SKILLS_DATA.find(s => s.name === skill);
     if (!selectedSkillInfo) return;
@@ -128,9 +131,8 @@ const SkillCalculator: React.FC = () => {
               <input
                 id="current-level"
                 type="number"
-                min="0"
                 value={currentLevel}
-                onChange={(e) => setCurrentLevel(parseInt(e.target.value, 10) || 0)}
+                onChange={(e) => setCurrentLevel(e.target.value)}
                 className={`${inputClasses} w-28`}
                 aria-label="Valore attuale"
               />
@@ -144,9 +146,8 @@ const SkillCalculator: React.FC = () => {
           <input
             id="target-level"
             type="number"
-            min={(isUntrained ? -1 : currentLevel) + 1}
             value={targetLevel}
-            onChange={(e) => setTargetLevel(parseInt(e.target.value, 10) || 0)}
+            onChange={(e) => setTargetLevel(e.target.value)}
             className={inputClasses}
           />
         </div>

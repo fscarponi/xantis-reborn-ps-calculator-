@@ -7,30 +7,26 @@ interface CalculationStep {
 }
 
 const SpecialCalculator: React.FC = () => {
-  const [currentSpecialsCount, setCurrentSpecialsCount] = useState<number>(0);
+  const [currentSpecialsCount, setCurrentSpecialsCount] = useState<string>('0');
   const [isUntrained, setIsUntrained] = useState<boolean>(true);
-  const [currentLevel, setCurrentLevel] = useState<number>(1);
-  const [targetLevel, setTargetLevel] = useState<number>(1);
+  const [currentLevel, setCurrentLevel] = useState<string>('1');
+  const [targetLevel, setTargetLevel] = useState<string>('1');
   
   const [cost, setCost] = useState<number>(0);
   const [steps, setSteps] = useState<CalculationStep[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  // Sync target level when current level or untrained status changes
-  useEffect(() => {
-    const minTarget = isUntrained ? 1 : currentLevel + 1;
-    if (targetLevel < minTarget) {
-      setTargetLevel(minTarget);
-    }
-  }, [isUntrained, currentLevel]);
 
   useEffect(() => {
     setError(null);
     setSteps([]);
     setCost(0);
 
-    const startLevel = isUntrained ? -1 : Math.floor(Math.max(1, currentLevel));
-    const endLevel = Math.floor(Math.max(1, targetLevel));
+    const currentSpecialsCountNum = parseInt(currentSpecialsCount, 10) || 0;
+    const currentLevelNum = Math.max(1, parseInt(currentLevel, 10) || 1);
+    const targetLevelNum = Math.max(1, parseInt(targetLevel, 10) || 1);
+
+    const startLevel = isUntrained ? -1 : Math.floor(currentLevelNum);
+    const endLevel = Math.floor(targetLevelNum);
 
     if (endLevel <= startLevel) {
         return;
@@ -41,7 +37,7 @@ const SpecialCalculator: React.FC = () => {
 
     // 1. Acquisition cost (if applicable)
     if (isUntrained) {
-        const currentCount = Math.max(0, Math.floor(currentSpecialsCount));
+        const currentCount = Math.max(0, Math.floor(currentSpecialsCountNum));
         const specialNumberToAcquire = currentCount + 1;
         let acquisitionCost = 0;
 
@@ -102,9 +98,8 @@ const SpecialCalculator: React.FC = () => {
               <input
                 id="current-level"
                 type="number"
-                min="1"
                 value={currentLevel}
-                onChange={(e) => setCurrentLevel(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                onChange={(e) => setCurrentLevel(e.target.value)}
                 className={`${inputClasses} w-28`}
                 aria-label="Valore attuale"
               />
@@ -118,9 +113,8 @@ const SpecialCalculator: React.FC = () => {
           <input
             id="target-level"
             type="number"
-            min={isUntrained ? 1 : currentLevel + 1}
             value={targetLevel}
-            onChange={(e) => setTargetLevel(parseInt(e.target.value, 10) || 1)}
+            onChange={(e) => setTargetLevel(e.target.value)}
             className={inputClasses}
           />
         </div>
@@ -135,9 +129,8 @@ const SpecialCalculator: React.FC = () => {
             <input
               id="current-specials-count"
               type="number"
-              min="0"
               value={currentSpecialsCount}
-              onChange={(e) => setCurrentSpecialsCount(parseInt(e.target.value, 10) || 0)}
+              onChange={(e) => setCurrentSpecialsCount(e.target.value)}
               className={inputClasses}
             />
           </div>
