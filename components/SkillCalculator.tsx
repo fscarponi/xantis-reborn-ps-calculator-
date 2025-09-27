@@ -9,6 +9,7 @@ import {
   SPECIALIZED_WITH_MASTER_MULTIPLIER,
   NATURAL_WITHOUT_MASTER_MULTIPLIER,
 } from '../constants';
+import TrainingTimeCalculator from './TrainingTimeCalculator';
 
 interface CalculationStep {
   description: string;
@@ -188,6 +189,7 @@ const SkillCalculator: React.FC = () => {
                 ))}
               </ul>
             </div>
+            <TrainingTimeCalculator cost={cost} />
           </>
         ) : (
           <p className="text-slate-400">Seleziona un valore da raggiungere più alto per calcolare il costo.</p>

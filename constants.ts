@@ -1,4 +1,4 @@
-import { Die, Parameter, Skill } from './types';
+import { Die, Parameter, Skill, TrainingDie } from './types';
 
 export const DICE_OPTIONS: Die[] = ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20'];
 
@@ -68,3 +68,11 @@ export const PARAMETERS_DATA: ParameterInfo[] = [
 export const PARAMETERS: Parameter[] = PARAMETERS_DATA.map(p => p.name);
 
 export const PARAMETER_COST_MULTIPLIER = 10;
+
+// Training Time
+export const TRAINING_DICE_OPTIONS: TrainingDie[] = [...DICE_OPTIONS, 'd100'];
+
+export const TRAINING_DICE_VALUES: Record<TrainingDie, number> = {
+  ...DICE_VALUES,
+  d100: 100,
+};

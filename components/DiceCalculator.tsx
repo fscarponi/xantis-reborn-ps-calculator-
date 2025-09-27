@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Die } from '../types';
 import { DICE_OPTIONS, DICE_VALUES, DICE_COST_MULTIPLIER } from '../constants';
@@ -90,6 +89,25 @@ const DiceCalculator: React.FC = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="mt-6 pt-6 border-t-2 border-slate-700/50">
+              <h4 className="text-lg font-bold text-slate-300 mb-4">Calcolo Tempo di Addestramento</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+                <div>
+                  <label className="block text-sm font-bold text-slate-400 mb-2">Dado Sviluppo di Riferimento</label>
+                  <div className="w-full p-3 bg-slate-800 border border-slate-600 rounded-md text-lg font-bold text-center">
+                    {startDie.toUpperCase()}
+                  </div>
+                </div>
+                <div className="bg-slate-800 p-4 rounded-lg text-center">
+                    <p className="text-slate-400 text-sm">Tempo Richiesto:</p>
+                    <p className="text-2xl font-bold text-amber-400">
+                      {Math.ceil(totalCost / DICE_VALUES[startDie]).toLocaleString('it-IT')} 
+                      <span className="text-lg text-amber-200"> giorni</span>
+                    </p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-500 mt-2">Per l'aumento di un dado, il tempo di addestramento si calcola usando il dado iniziale come riferimento.</p>
             </div>
           </>
         ) : (

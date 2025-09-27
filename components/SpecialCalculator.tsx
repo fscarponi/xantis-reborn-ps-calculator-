@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TrainingTimeCalculator from './TrainingTimeCalculator';
 
 interface CalculationStep {
   description: string;
@@ -164,6 +165,7 @@ const SpecialCalculator: React.FC = () => {
                 ))}
               </ul>
             </div>
+            <TrainingTimeCalculator cost={cost} />
           </>
         ) : (
           <p className="text-slate-400">Seleziona un valore da raggiungere più alto per calcolare il costo.</p>

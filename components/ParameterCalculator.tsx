@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Parameter } from '../types';
 import { PARAMETERS, PARAMETERS_DATA, PARAMETER_COST_MULTIPLIER } from '../constants';
@@ -126,7 +125,7 @@ const ParameterCalculator: React.FC = () => {
                  <p className="text-2xl font-bold text-white">{finalValue.total} <span className="text-base font-normal text-slate-400">({baseValue} base + {finalValue.bonus} bonus)</span></p>
               </div>
             </div>
-            <div>
+            <div className="mt-6 pt-6 border-t-2 border-slate-700/50">
               <p className="text-slate-400 mb-2 font-semibold">Dettagli del Calcolo:</p>
               <ul className="space-y-2 text-slate-300">
                 {steps.map((step, index) => (
@@ -139,6 +138,10 @@ const ParameterCalculator: React.FC = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="mt-6 pt-6 border-t-2 border-slate-700/50">
+              <h4 className="text-lg font-bold text-slate-300 mb-4">Calcolo Tempo di Addestramento</h4>
+              <p className="text-xs text-slate-500 mt-2">L'aumento di questi valori e' istanteo, e non richiede tempo</p>
             </div>
           </>
         ) : (
